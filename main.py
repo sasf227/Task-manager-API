@@ -1,0 +1,45 @@
+from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from typing import List
+import jwt
+from db_dependency import create_tables, db_dependency
+from db import User, Tasks
+from auth import authenticate_user
+from pass_hash import get_password_hash
+
+create_tables()
+
+
+app = FastAPI()
+SECRET_KEY = "79558f3b2c4d75eb04107d8981edb6fc717b68fb2914018e6a7f5a18b83d900efb1f4edaedb50787ce666a7d194393546f4cd7d9a88561b60d41c47ea0f281009c26df51edcd25153bc2c87c53e00e3f3a20f947288c21c435ce60db4ced99659d15277e6723fdfed4afd90ed2da4a09c92dcff2ec96aa5de1ccb0f2cccee2d79e08d8ab525fbbe303734b4152b3817e7657f95fb889e307ee7a9454d4a65cb"
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+
+
+
+
+@app.get ("/")
+async def read_root(username: str, password: str, db: db_dependency):
+    return authenticate_user(username, password, db)
+
+
+@app.post("/sign_in")
+async def sign_in(username:str, password:str, db: db_dependency):
+    hash_password = get_password_hash(password)
+    e = User(username=username, password_hash=hash_password)
+    db.add(e)
+    db.commit()
+
+@app.post("/log_in")
+async def log_in(username:str, password:str, db: db_dependency):
+    
+    res = db.query(User).filter_by(username=username, password_hash=password).first()
+
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+        

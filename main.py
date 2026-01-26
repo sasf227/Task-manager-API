@@ -22,7 +22,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 @app.get ("/")
 async def read_root(username: str, password: str, db: db_dependency):
-    return authenticate_user(username, password, db)
+    return {"message": "Welcome to FastAPI!"}
 
 
 @app.post("/sign_in")
@@ -34,9 +34,8 @@ async def sign_in(username:str, password:str, db: db_dependency):
 
 @app.post("/log_in")
 async def log_in(username:str, password:str, db: db_dependency):
-    
     res = db.query(User).filter_by(username=username, password_hash=password).first()
-
+    return authenticate_user(username, password, db)
 
 
 if __name__ == "__main__":

@@ -1,11 +1,17 @@
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from typing import List
+from typing import List, Annotated
 import jwt
 from db_dependency import create_tables, db_dependency
-from db import User, Tasks
-from auth import authenticate_user
+from db import User, Tasks, Token
+from datetime import timedelta
+from get_user_info import get_current_active_user
+from women import adolf
 from pass_hash import get_password_hash
+from tokens import create_access_token
+
+
+
 
 create_tables()
 
@@ -15,6 +21,8 @@ SECRET_KEY = "79558f3b2c4d75eb04107d8981edb6fc717b68fb2914018e6a7f5a18b83d900efb
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+
 
 
 
@@ -35,9 +43,37 @@ async def sign_in(username:str, password:str, db: db_dependency):
 @app.post("/log_in")
 async def log_in(username:str, password:str, db: db_dependency):
     res = db.query(User).filter_by(username=username, password_hash=password).first()
-    return authenticate_user(username, password, db)
+    return adolf(db, username, password)
 
+@app.post("/token")
+async def login_for_access_token(db: db_dependency, form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
+) -> Token:
+        user = adolf(db, form_data.username, form_data.password)
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                deetail="Incorrect username or password",
+                headers={"WWW-Authenticate": "Bearer"}
+            )
+        access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        access_token = create_access_token(
+            data = {"sub": user.username}, expires_delta=access_token_expires
+        )
+        return Token(access_token=access_token, token_type="bearer")
+        
+        
+@app.get("/users/me/", response_model=User)
+async def read_user_me(
+    current_user: Annotated[User, Depends(get_current_active_user)],
+):
+    return current_user
 
+@app.get("/users/me/items/")
+async def read_own_items(
+    current_user: Annotated[User, Depends(get_current_active_user)],
+):
+    return [{"item_id": "Foo", "owner": current_user.username}]
+        
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

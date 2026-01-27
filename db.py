@@ -23,7 +23,7 @@ class User(Base):
     id = Column(Integer, primary_key=True)
     username = Column(String, unique=True, nullable=False)
     password_hash = Column(String, nullable=False)
-    is_active = Column(Boolean, nullable=True)
+    disabled = Column(Boolean, nullable=True)
     
     tasks = relationship("Tasks", back_populates="user", cascade="all, delete-orphan")
     

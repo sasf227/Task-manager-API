@@ -6,7 +6,7 @@ from db_dependency import create_tables, db_dependency
 from db import User, Tasks, Token, TokenSchema, UserSchema
 from datetime import timedelta
 from get_user_info import get_current_active_user
-from woW import MY
+from auth import authenticate_user
 from pass_hash import get_password_hash
 from tokens import create_access_token
 
@@ -43,12 +43,12 @@ async def sign_in(username:str, password:str, db: db_dependency):
 @app.post("/log_in")
 async def log_in(username:str, password:str, db: db_dependency):
     res = db.query(User).filter_by(username=username, password_hash=password).first()
-    return MY(db, username, password)
+    return authenticate_user(db, username, password)
 
 @app.post("/token", response_model=TokenSchema)
 async def login_for_access_token(db: db_dependency, form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
 ):
-        user = MY(db, form_data.username, form_data.password)
+        user = authenticate_user(db, form_data.username, form_data.password)
         if not user:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
@@ -59,7 +59,10 @@ async def login_for_access_token(db: db_dependency, form_data: Annotated[OAuth2P
         access_token = create_access_token(
             data = {"sub": user.username}, expires_delta=access_token_expires
         )
-        return Token(access_token=access_token, token_type="bearer")
+        return {
+            "access_token": access_token,
+            "token_type": "bearer"
+        }
         
         
 @app.get("/users/me/", response_model=UserSchema)
@@ -68,7 +71,7 @@ async def read_user_me(
 ):
     return current_user
 
-@app.get("/users/me/items/", response_model=UserSchema)
+@app.get("/users/me/items/")
 async def read_own_items(
     current_user: Annotated[User, Depends(get_current_active_user)],
 ):

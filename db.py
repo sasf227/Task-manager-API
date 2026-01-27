@@ -13,7 +13,7 @@ class Token(Base):
     
 # !!!!! CREATE A PYDANTIC SCHEME FOR FASTAPI
 class TokenSchema(BaseModel):
-    acces_token: str
+    access_token: str
     token_type: str 
     
     # !!!!! from_attributes=True ALLOWS PYDANTIC TO READ SQLALCHEMY OBJECTS

@@ -1,7 +1,9 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 from db_dependency import Base
+from pydantic import BaseModel
 
+# !!!!! IF USE SQLALCHEMY CLASSES IN FASTAPI ROUTES IT GONNA RAISE AN ERROR 
 class Token(Base):
     __tablename__ = "token"
     
@@ -9,6 +11,16 @@ class Token(Base):
     access_token = Column(String, unique=True, nullable=False)
     token_type = Column(String, nullable=False)
     
+# !!!!! CREATE A PYDANTIC SCHEME FOR FASTAPI
+class TokenSchema(BaseModel):
+    acces_token: str
+    token_type: str 
+    
+    # !!!!! from_attributes=True ALLOWS PYDANTIC TO READ SQLALCHEMY OBJECTS
+    class Config: 
+        from_attributes = True
+
+
 class TokenData(Base):
     __tablename__ = "tokenData"
     
@@ -26,6 +38,18 @@ class User(Base):
     disabled = Column(Boolean, nullable=True)
     
     tasks = relationship("Tasks", back_populates="user", cascade="all, delete-orphan")
+    
+    
+# !!!!! SAME FOR USER
+class UserSchema(BaseModel):
+    username: str
+    password_hash: str
+    disabled: bool | None
+    
+    # !!!!! from_attributes=True ALLOWS PYDANTIC TO READ SQLALCHEMY OBJECTS
+    class Config: 
+        from_attributes = True    
+    
     
 class Tasks(Base):
     __tablename__ = "tasks"

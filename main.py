@@ -3,10 +3,10 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from typing import List, Annotated
 import jwt
 from db_dependency import create_tables, db_dependency
-from db import User, Tasks, Token
+from db import User, Tasks, Token, TokenSchema, UserSchema
 from datetime import timedelta
 from get_user_info import get_current_active_user
-from women import adolf
+from woW import MY
 from pass_hash import get_password_hash
 from tokens import create_access_token
 
@@ -43,16 +43,16 @@ async def sign_in(username:str, password:str, db: db_dependency):
 @app.post("/log_in")
 async def log_in(username:str, password:str, db: db_dependency):
     res = db.query(User).filter_by(username=username, password_hash=password).first()
-    return adolf(db, username, password)
+    return MY(db, username, password)
 
-@app.post("/token")
+@app.post("/token", response_model=TokenSchema)
 async def login_for_access_token(db: db_dependency, form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
-) -> Token:
-        user = adolf(db, form_data.username, form_data.password)
+):
+        user = MY(db, form_data.username, form_data.password)
         if not user:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                deetail="Incorrect username or password",
+                detail="Incorrect username or password",
                 headers={"WWW-Authenticate": "Bearer"}
             )
         access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
@@ -62,13 +62,13 @@ async def login_for_access_token(db: db_dependency, form_data: Annotated[OAuth2P
         return Token(access_token=access_token, token_type="bearer")
         
         
-@app.get("/users/me/", response_model=User)
+@app.get("/users/me/", response_model=UserSchema)
 async def read_user_me(
     current_user: Annotated[User, Depends(get_current_active_user)],
 ):
     return current_user
 
-@app.get("/users/me/items/")
+@app.get("/users/me/items/", response_model=UserSchema)
 async def read_own_items(
     current_user: Annotated[User, Depends(get_current_active_user)],
 ):

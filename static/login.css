@@ -1,0 +1,205 @@
+
+body {
+    font-family: "Inter", "Pilat Extended", sans-serif;
+}
+
+
+
+
+
+h1 {
+    font-family: var(--font-family);
+font-weight: 600;
+font-size: 26px;
+color: #fff;
+
+}
+
+#logo {
+    width: 139px;
+    height: 91px;
+    place-self:  center;
+    background: url(fotos/logo.svg) center no-repeat;
+    margin-bottom: 49.58px;
+}
+
+#auth-form {
+    width: 400px;
+    height: 351px;
+    margin-top: 23px;
+}
+
+
+
+label {
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 18px;
+    margin-top: 23px;
+    color: #8caab9;
+}
+
+
+
+
+/* Email part */
+#email{
+    width: 400px;
+    height: 58px;
+    background: #455a64;
+    display: flex;
+    margin-top: 16px;
+    margin-bottom: 27px;
+}
+
+#emfoto {
+    width: 24px;
+    height: 24px;
+    place-self: center;
+    margin: 0px 26px 0px 18px; 
+    background: url(fotos/userEmail.svg) center no-repeat;
+}
+
+#email input, input:focus {
+    width: 334px;
+    height: 55px;
+    border: none;
+    background-color: rgba(255, 222, 173, 0);
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 18px;
+    color: #fff;
+    cursor: pointer;
+    outline: none;
+}
+
+
+/* Password part */
+#password {
+    width: 400px;
+    height: 58px;
+    background: #455a64;
+    display: flex;
+    margin-top: 16px;
+    margin-bottom: 11px;
+}
+
+#foto {
+    width: 24px;
+    height: 24px;
+    place-self: center;
+    margin: 0px 26px 0px 18px; 
+    background: url(fotos/userPassword.svg) center no-repeat;
+}
+
+#password input, input:focus {
+    width: 280px;
+    height: 55px;
+    border: none;
+    background-color: rgba(255, 222, 173, 0);
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 18px;
+    color: #fff;
+    cursor: pointer;
+    outline: none;
+}
+
+/* Show pass + animation */
+#eye {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    place-self: center;
+}
+
+
+
+#forgot-password {
+    text-decoration: none;
+    font-family: var(--font-family);
+font-weight: 500;
+font-size: 16px;
+color: #8caab9;
+    float: right;
+}
+
+#login {
+    width: 400px;
+    height: 67px;
+    background-color: #fed36a;
+    border: none;
+    cursor: pointer;
+    margin-top: 38px;
+    font-family: var(--font-family);
+font-weight: 600;
+font-size: 18px;
+text-align: center;
+color: #000;
+}
+
+#cnt {
+    width: 376px;
+    height: 19px;
+    display: flex;
+    place-self: center;
+    margin-top: 37px;
+    margin-bottom: 37px;
+}
+
+#cnt div {
+    width: 111px;
+    height: 0px;
+    border: 1px solid #8caab9;
+    place-self: center;
+}
+
+#cnt span {
+    font-family: var(--font-family);
+font-weight: 500;
+font-size: 16px;
+text-align: center;
+color: #8caab9;
+margin: 0px 14px 0px 14px;
+width: 127px;
+height: 19px;
+}
+
+#ggle {
+    background-color: rgba(255, 222, 173, 0);
+    width: 400px;
+    height: 67px;
+    border: 2px solid white;
+    cursor: pointer;
+    font-family: var(--font-family);
+font-weight: 500;
+font-size: 18px;
+color: #fff;
+display: flex;
+place-items: center;
+margin-bottom: 25px;
+}
+
+#gf{
+    
+    width: 24px;
+    height: 24px;
+    margin-left: 150px;
+    margin-right: 10px;
+    background: url(fotos/google.svg) center no-repeat;
+}
+
+
+#sign {
+    font-family: var(--font-family);
+font-weight: 500;
+font-size: 16px;
+color: #8caab9;
+margin-left: 80px;
+}
+
+#sign a {
+    font-weight: 600;
+color: #fed36a;
+text-decoration: none;
+}

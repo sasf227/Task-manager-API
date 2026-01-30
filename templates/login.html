@@ -1,0 +1,74 @@
+{% extends "project_base.html" %}
+
+{% block body %}
+<link rel="stylesheet" href="/static/login.css">
+
+
+    <div id="logo"></div>
+    <h1>Welcome back!</h1>
+
+    <!-- Authentification form -->
+    <form id="auth-form" action="" method="post">
+
+        <!-- Email part-->
+        <label>
+        Email address
+        <div id="email">
+            <div id="foto"></div>
+            <input type="text" placeholder="Name:" maxlength="90" name="username">
+        </div>
+        </label>
+
+        <!-- Password part -->
+        <label>
+        Password
+        <div id="password">
+            <div id="foto"></div>
+            <input id="pass" type="password" placeholder="Password:" name="password" minlength="1" maxlength="128" autocomplete="off">
+            <button type="button" id="eye" onclick="showpass()"></button>
+        </div>
+        </label>
+
+        <!-- Login part -->
+        <a href="" id="forgot-password">Forgot password?</a> 
+        <input type="submit" value="Login" id="login" onclick="setActionForm('login')">
+    </form>
+    
+
+    
+    <div id="cnt">
+        <span>Or continue with</span>
+    </div>
+
+    <button id="ggle">
+        <div id="gf"></div>
+        Google
+    </button>
+    <span id="sign">Dont have an account? <a href="">Sign Up</a></span>
+</div>
+
+
+
+<script >
+    function showpass() {
+        const pass = document.getElementById("pass")
+        if(pass.type === "password") {
+            pass.type = "text";
+        }
+        else {
+            pass.type = "password";
+        }
+    }
+
+    function setActionForm(action){
+        let form = document.getElementById("auth-form");
+        if (action === "login"){
+            form.action = "/token";
+            form.method = "post";
+            form.submit();
+        } 
+    
+    }
+</script>
+
+{% endblock body %}

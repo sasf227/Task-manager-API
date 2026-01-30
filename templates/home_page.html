@@ -1,0 +1,85 @@
+{% extends "project_base.html" %}
+
+{% block body %}
+<span>hi</span>
+
+<div class="container">
+    <h1>Welcome, !</h1>
+    <p>welcome to your dashboard </p>
+    <a href="" class="brn btn-logout">Logout</a>
+</div>
+
+<link rel="stylesheet" href="/static/home_page.css">
+    <header>
+        <span id="welcome">Welcome back, !</span>
+
+        <div id="profil">    
+        </div>
+
+        <div id="search">
+            <div>
+            </div>
+            <input type="text" placeholder="Search task">
+        </div>
+
+        <button id="options"></button>
+    </header>
+
+
+    <main>
+        <div id="completed">
+            <span class="task">Completed Tasks</span>
+            <a href="" id="a1">See all</a>
+
+            <div class="task-completed">
+                <span class="task-name">Real Estate <br>
+                Website <br>
+                Design</span>
+
+                <div class="team-c"><p>Team members</p> <div></div></div>
+
+                <div class="bar-completed">
+                    <p>Completed <p>100%</p></p> 
+                    <div class="bar"></div>
+                </div>
+            </div>
+
+            <span class="task">Ongoing Projects</span>
+            <a href="" id="a2">See all</a>
+
+            <div id="ongP">
+
+          
+                <div class="ongoing-project">
+                    <span class="task-namo"></span>
+                    
+                    <div class="team-o"><p>Team members:</p> <div></div></div>
+            
+                    <span class="due-to">Due to: </span>
+                    <a href="">details</a>
+                </div>
+     }
+
+                <div class="ongoing-project">
+                    <span class="task-namo">Mobile App Wireframe</span>
+
+                    <div class="team-o"><p>Team members</p> <div></div></div>
+
+                    <span class="due-to">Due to: 25 September</span>
+
+                    <div class="bar-o">
+                        
+                    </div>
+                    <div class="bar-o2"></div>
+                </div>
+            </div>
+        </div>
+
+        <button onclick="window.location.href=''">new task</button>
+        <button onclick="window.location.href=''">chat</button>
+    </main>
+
+<span> </span>
+
+
+{% endblock body %}

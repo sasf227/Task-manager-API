@@ -1,0 +1,257 @@
+body {
+    font-family: "Inter", "Pilat Extended", sans-serif;
+}
+
+header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    width: 400px;
+height: 139px;
+}
+
+#welcome {
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 11px;
+    color: #fed36a;
+}
+
+/* Do Username */
+
+#welcome p {
+    font-family: var(--second-family);
+    font-weight: 600;
+    font-size: 22px;
+    color: #fff;
+    margin: 0px 0px 0px 0px;
+}
+
+#profil {
+    width: 47px;
+    height: 48px;
+    border: 2px solid black;
+    grid: 1/2;
+    margin-left: 40px;
+}
+
+/* Serach Tasks */
+#search {
+    width: 311px;
+    height: 58px;
+    background: #455a64;
+    grid: 2/1;
+    display: flex;
+}
+
+#search div {
+    width: 24px;
+    height: 24px;
+    border: 1px solid black;
+    place-self: center;
+    margin-left: 19px;
+}
+
+#search input, #search input:focus {
+    width: 250px;
+    height: 58px;
+    border: none;
+    background-color: rgba(255, 222, 173, 0);
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 18px;
+    color: #fff;
+    cursor: pointer;
+    outline: none;
+    margin-left: 17px;
+}
+
+/* options */
+#options {
+    width: 57px;
+    height: 58px;
+    background: #fed36a;
+    cursor: pointer;
+    grid: 2/2;
+    margin-left: 37px;
+    border: none;
+}
+
+
+/* Main part with tasks */
+main {
+height: 1200px;
+}
+
+/* Completed tasks */
+#completed {
+    width: 384px;
+    margin-top: 34px;
+}
+
+.task {
+    font-family: var(--font-family);
+font-weight: 600;
+font-size: 20px;
+color: #fff;
+}
+
+#a1 {
+    font-family: var(--font-family);
+font-weight: 400;
+font-size: 16px;
+text-decoration: none;
+color: #fed36a;
+margin-left: 166px;
+}
+
+#a2 {
+    font-family: var(--font-family);
+font-weight: 400;
+font-size: 16px;
+text-decoration: none;
+color: #fed36a;
+margin-left: 160px;
+}
+
+.task-completed {
+    width: 183px;
+height: 175px;
+background: #455a64;
+padding: 7px 8px 17px 11px;
+margin-top: 13px;
+
+}
+
+.task-name {
+    font-family: var(--second-family);
+font-weight: 600;
+font-size: 21px;
+color: #fff;
+}
+
+.team-c {
+    font-family: var(--font-family);
+font-weight: 400;
+font-size: 11px;
+color: #fff;
+}
+
+.bar-completed {
+    font-family: var(--font-family);
+font-weight: 400;
+font-size: 11px;
+color: #fff;
+}
+
+.bar {
+    border-radius: 8px;
+    width: 163px;
+    height: 6px;
+    background: #fff;
+}
+
+.task-completed:hover .task-name, .task-completed:hover .team-c p, .task-completed:hover .bar-completed {
+    color: black;
+}
+
+.task-completed:hover {
+    background: #fed36a;
+}
+
+.task-completed:hover .bar {
+    background: #212832;
+}
+
+.ongoing-project {
+    width: 384px;
+height: 125px;
+background: #455a64;
+margin-bottom: 20px;
+}
+
+.task-namo {
+    font-family: var(--second-family);
+font-weight: 600;
+font-size: 21px;
+color: #fff;
+}
+
+.team-o {
+    font-family: var(--font-family);
+font-weight: 400;
+font-size: 14px;
+color: #fff;
+width: 102px;
+height: 42px;
+}
+
+.due-to {
+    font-family: var(--font-family);
+font-weight: 400;
+font-size: 14px;
+line-height: 118%;
+color: #fff;
+}
+
+.bar-o {
+    border: 3px solid black;
+    border-radius: 100px;
+    width: 59px;
+    height: 59px;
+    bottom: 44px;
+    left: 309px;
+    position: relative;
+    
+}
+
+.bar-o2 {
+    border: 3px solid yellow;
+    border-radius: 100px;
+    width: 59px;
+    height: 59px;
+    bottom: 109px;
+    left: 309px;
+    position: relative;
+}
+
+footer {
+    width: 451px;
+height: 87px;
+background: #263238;
+place-self: center;
+display: flex;
+place-items: center;
+}
+
+#Home, #Chat, #Calendar, #Notification {
+    width: 28px;
+    height: 44px;
+    display: grid;
+margin-left: 10px;
+margin-right: 10px;
+}
+
+#Home button, #Chat button, #Calendar button, #Notification button {
+    width: 24px;
+    height: 24px;
+    background-color: rgba(0, 0, 128, 0);
+    border: 2px solid black;
+    cursor: pointer;
+}
+
+#Home span, #Chat span, #Calendar span, #Notification span {
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 165%;
+    text-align: center;
+    color: #617d8a;
+    
+}
+
+#new-task {
+    width: 54px;
+height: 54px;
+background: #fed36a;
+}

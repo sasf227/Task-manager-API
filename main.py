@@ -13,6 +13,8 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, JSONResponse
 from jwt.exceptions import InvalidTokenError
+from schemas import UserCreate
+
 
 create_tables()
 
@@ -52,7 +54,7 @@ async def home(request: Request, db: db_dependency, access_token: str | None = C
     else:
         return "Logged out or sign in required"
     
-@app.get("/logout")
+@app.post("/logout")
 async def logout():
     response = JSONResponse(content={"message": "Logged out"})
     response.delete_cookie(key="access_token")
@@ -62,17 +64,17 @@ async def logout():
 async def login(request: Request):
     return templates.TemplateResponse(request=request, name="login.html")
 
-@app.post("/sign_in")
-async def sign_in(username:str, password:str, db: db_dependency):
-    hash_password = get_password_hash(password)
-    e = User(username=username, password_hash=hash_password)
+@app.get("/signup", response_class=HTMLResponse)
+async def signup(request: Request):
+    return templates.TemplateResponse(request=request, name="sign_up.html")
+
+
+@app.post("/sign_up")
+async def sign_up(user: UserCreate, db: db_dependency):
+    hash_password = get_password_hash(user.password)
+    e = User(username=user.username, password_hash=hash_password)
     db.add(e)
     db.commit()
-
-@app.post("/log_in")
-async def log_in(username:str, password:str, db: db_dependency):
-    res = db.query(User).filter_by(username=username, password_hash=password).first()
-    return authenticate_user(db, username, password)
 
 @app.post("/token", response_model=TokenSchema)
 async def login_for_access_token(db: db_dependency, form_data: Annotated[OAuth2PasswordRequestForm, Depends()],

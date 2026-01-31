@@ -8,7 +8,7 @@
     <h1>Welcome back!</h1>
 
     <!-- Authentification form -->
-    <form id="auth-form" action="" method="post">
+    <form id="auth-form">
 
         <!-- Email part-->
         <label>
@@ -44,7 +44,7 @@
         <div id="gf"></div>
         Google
     </button>
-    <span id="sign">Dont have an account? <a href="">Sign Up</a></span>
+    <span id="sign">Dont have an account? <a href="/signup">Sign Up</a></span>
 </div>
 
 
@@ -66,6 +66,7 @@
             form.action = "/token";
             form.method = "post";
             form.submit();
+            window.location.href = "/home"
         } 
     
     }

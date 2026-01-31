@@ -1,0 +1,89 @@
+{% extends "project_base.html" %}
+
+{% block body %}
+
+
+    <div id="logo">
+    </div>
+
+    <!-- Make it clear -->
+    <div>
+        <span id="wel">Create your account</span>
+
+            <label id="nlab" for="name">Full Name</label>
+            <div id="nbox">
+                <div id="nfoto"></div>
+                <input type="text" placeholder="Full Name:" maxlength="32" name="username" id="name" required>
+            </div>
+
+            <!--
+            <label id="elab">Email Adress</label>
+            <div id="ebox">
+                <div id="emfoto"></div>
+                <input type="email" placeholder="Email:" maxlength="32" name="email" id="email" required>
+            </div>
+            -->
+
+            <label class="pslab">Password</label>
+            <div class="pass">
+                <div class="psfoto"></div>
+                <input type="password" placeholder="Password:" name="password" id="password" >
+                <label class="eye"><input type="checkbox" class="check"></label>
+            </div>
+ 
+            <!--
+            <label class="pslab">Repeat Password</label>
+            <div class="pass">
+                <div class="psfoto"></div>
+                <input type="password" placeholder="Password:" name="password-confirm" id="password-confirm">
+                <label class="eye"><input type="checkbox" class="check"></label>
+            </div>
+            -->
+
+            <span id="pp">I have read & agreed to DayTask <a href="">Privacy Policy,
+                Terms & Condition</a></span>
+                
+    </div>
+    
+    <button onclick="signUp()">sign up</button>
+    
+
+    <div id="cnt">
+        <span>Or continue with</span>
+    </div>
+
+    <button type="submit" id="ggle">
+        <div id="gf"></div>
+        Google
+    </button>
+    <span id="sign">Already have an account? <a href="/login">Log In</a></span>
+
+
+<script>
+    async function signUp(){
+        let username = document.getElementById("name").value
+        let password = document.getElementById("password").value
+
+        console.log(username)
+        console.log(password)
+
+        let res = await fetch("/sign_up", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password
+                        })
+                    });
+        
+        window.location.href = "/login"
+        
+    }
+</script>
+
+
+{% endblock body %}
+
+

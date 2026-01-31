@@ -6,7 +6,7 @@
 <div class="container">
     <h1>Welcome, {{username}}!</h1>
     <p>welcome to your dashboard </p>
-    <a href="/logout" class="brn btn-logout">Logout</a>
+    <button onclick="logout()">Logout</button>
 </div>
 
 <link rel="stylesheet" href="/static/home_page.css">
@@ -80,6 +80,14 @@
     </main>
 
 <span> </span>
+<script>
+    async function logout() {
+        let res = await fetch("/logout", {
+            method: "POST"
+        })
+        window.location.href="/login"
+    }
+</script>
 
 
 {% endblock body %}

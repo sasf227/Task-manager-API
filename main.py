@@ -1,19 +1,18 @@
-from fastapi import FastAPI, Depends, HTTPException, status, Request
+from fastapi import FastAPI, Depends, HTTPException, status, Request, Cookie
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from typing import List, Annotated
 import jwt
-from requests import session
 from db_dependency import create_tables, db_dependency
 from db import User, Tasks, Token, TokenSchema, UserSchema
 from datetime import timedelta
-from get_user_info import get_current_active_user
+from get_user_info import get_current_active_user, get_user
 from auth import authenticate_user
 from pass_hash import get_password_hash
 from tokens import create_access_token
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import HTMLResponse
-
+from fastapi.responses import HTMLResponse, JSONResponse
+from jwt.exceptions import InvalidTokenError
 
 create_tables()
 
@@ -31,9 +30,33 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
     
 @app.get("/home", response_class=HTMLResponse)
-async def home(request: Request):
-    return templates.TemplateResponse(request=request, name="home_page.html")
-
+async def home(request: Request, db: db_dependency, access_token: str | None = Cookie(default=None)):
+    if access_token:
+        credentials_exception = HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+        
+        try:
+            payload = jwt.decode(access_token, SECRET_KEY, algorithms=ALGORITHM)
+            username = payload.get("sub")
+            if username is None:
+                raise credentials_exception
+        except InvalidTokenError:
+            raise credentials_exception
+        user = get_user(db, username=username)
+        if user is None:
+            raise credentials_exception
+        return templates.TemplateResponse(request=request, name="home_page.html", context={"username": user.username})
+    else:
+        return "Logged out or sign in required"
+    
+@app.get("/logout")
+async def logout():
+    response = JSONResponse(content={"message": "Logged out"})
+    response.delete_cookie(key="access_token")
+    return response
 
 @app.get("/login", response_class=HTMLResponse)
 async def login(request: Request):
@@ -66,10 +89,23 @@ async def login_for_access_token(db: db_dependency, form_data: Annotated[OAuth2P
             data = {"sub": user.username}, expires_delta=access_token_expires
         )
 
-        return {
-            "access_token": access_token,
-            "token_type": "bearer"
-        }, home(request=Request)
+        response = JSONResponse (
+            content={
+                "access_token": access_token,
+                "token_type": "bearer"
+            }
+        )
+        
+        response.set_cookie(
+            key="access_token",
+            value=access_token,
+            httponly=True,
+            secure=False,
+            samesite="lax",
+            max_age=1800
+        )
+        
+        return response
         
         
 
@@ -81,9 +117,7 @@ async def read_own_items(
     return [{"item_id": "Foo", "owner": current_user.username}]
 
 
-@app.post("/handling", response_model=UserSchema)
-async def handling(current_user: Annotated[User, Depends(get_current_active_user)]):
-    return current_user
+
 
 if __name__ == "__main__":
     import uvicorn

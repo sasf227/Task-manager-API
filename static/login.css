@@ -75,7 +75,7 @@ label {
 
 
 /* Password part */
-#password {
+#pass {
     width: 400px;
     height: 58px;
     background: #455a64;
@@ -92,7 +92,19 @@ label {
     background: url(fotos/userPassword.svg) center no-repeat;
 }
 
-#password input, input:focus {
+#password {
+    width: 280px;
+    height: 55px;
+    border: none;
+    background-color: rgba(255, 222, 173, 0);
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 18px;
+    color: #fff;
+    cursor: pointer;
+    outline: none;
+}
+#password:focus {
     width: 280px;
     height: 55px;
     border: none;

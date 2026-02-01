@@ -13,7 +13,7 @@
             <label id="nlab" for="name">Full Name</label>
             <div id="nbox">
                 <div id="nfoto"></div>
-                <input type="text" placeholder="Full Name:" maxlength="32" name="username" id="name" required>
+                <input type="text" placeholder="Full Name:" maxlength="32" name="username" id="username" required>
             </div>
 
             <!--
@@ -61,11 +61,8 @@
 
 <script>
     async function signUp(){
-        let username = document.getElementById("name").value
+        let username = document.getElementById("username").value
         let password = document.getElementById("password").value
-
-        console.log(username)
-        console.log(password)
 
         let res = await fetch("/sign_up", {
                     method: "POST",

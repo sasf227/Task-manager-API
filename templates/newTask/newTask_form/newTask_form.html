@@ -1,0 +1,23 @@
+<form id="newTaskForm" method="post"  novalidate>
+        <label for="task-title">Task Title</label>
+        <input type="text" id="task-title" name="title" placeholder="Hi-Fi Wireframe">
+
+        <label for="task-details">Task Details</label>
+        <textarea id="task-details" name="description" rows="4" placeholder="Lorem Ipsum is simply dummy text of the printing and typesetting industry."></textarea>
+
+        <h3>Add team members</h3>
+        <div id="team-members">
+        </div>
+
+
+        {% include "/newTask/newTask_form/newTask_form_find-friend/newTask_form_find-friend.html" %}
+
+        <h3>Time & Date</h3>
+        <div class="time-date">
+            <input type="time" id="time" name="time" value="time">
+            <input type="date" id="date" name="date" value="date">
+        </div>
+
+        {% include "/newTask/newTask_form/newTask_form_u-task/newTask_form_u-task.html" %}
+
+    </form>

@@ -77,8 +77,7 @@ async def sign_up(user: UserCreate, db: db_dependency):
     db.commit()
 
 @app.post("/token", response_model=TokenSchema)
-async def login_for_access_token(db: db_dependency, form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
-):
+async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: db_dependency,):
         user = authenticate_user(db, form_data.username, form_data.password)
         if not user:
             raise HTTPException(

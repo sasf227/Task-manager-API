@@ -8,31 +8,31 @@
     <h1>Welcome back!</h1>
 
     <!-- Authentification form -->
-    <form id="auth-form">
+    <div>
 
         <!-- Email part-->
         <label>
         Email address
         <div id="email">
             <div id="foto"></div>
-            <input type="text" placeholder="Name:" maxlength="90" name="username">
+            <input type="text" placeholder="Name:" maxlength="90" name="username" id="username">
         </div>
         </label>
 
         <!-- Password part -->
         <label>
         Password
-        <div id="password">
+        <div id="pass">
             <div id="foto"></div>
-            <input id="pass" type="password" placeholder="Password:" name="password" minlength="1" maxlength="128" autocomplete="off">
+            <input id="password" type="password" placeholder="Password:" name="password" minlength="1" maxlength="128" autocomplete="off">
             <button type="button" id="eye" onclick="showpass()"></button>
         </div>
         </label>
 
         <!-- Login part -->
         <a href="" id="forgot-password">Forgot password?</a> 
-        <input type="submit" value="Login" id="login" onclick="setActionForm('login')">
-    </form>
+        <input type="submit" value="Login" id="login" onclick="login()">
+    </div>
     
 
     
@@ -51,7 +51,7 @@
 
 <script >
     function showpass() {
-        const pass = document.getElementById("pass")
+        const pass = document.getElementById("password")
         if(pass.type === "password") {
             pass.type = "text";
         }
@@ -60,14 +60,25 @@
         }
     }
 
-    function setActionForm(action){
-        let form = document.getElementById("auth-form");
-        if (action === "login"){
-            form.action = "/token";
-            form.method = "post";
-            form.submit();
-            window.location.href = "/home"
-        } 
+    async function login(){
+        let username = document.getElementById("username").value
+        let password = document.getElementById("password").value
+
+        const formData = new URLSearchParams();
+        formData.append("username", username);
+        formData.append("password", password);
+
+        let res = await fetch("/token", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: formData
+            });
+        
+        
+        window.location.href="/home"
+        
     
     }
 </script>

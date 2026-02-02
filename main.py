@@ -13,7 +13,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, JSONResponse
 from jwt.exceptions import InvalidTokenError
-from schemas import UserCreate
+from schemas import UserCreate, Task
 
 
 create_tables()
@@ -109,7 +109,16 @@ async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm,
         return response
         
         
+@app.get("/newTask", response_class=HTMLResponse)
+async def new_task(request: Request):
+    return templates.TemplateResponse(request=request, name="newTask.html")
 
+@app.post("/newTask_create")
+async def new_task_create(task: Task, request: Request):
+    print(task)
+    print(task.underTasks)
+    return {"message": "Task created"}
+    
 
 @app.get("/users/me/items/")
 async def read_own_items(

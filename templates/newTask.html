@@ -1,0 +1,95 @@
+{% extends "project_base.html" %}
+
+{% block body %}
+
+<link rel="stylesheet" href="/static/newTask.css">
+    <header>
+        <span>Create New Task</span>
+    </header>
+
+    <div id="new-task-form">
+        <label for="task-title">Task Title</label>
+        <input type="text" id="task-title" name="title" placeholder="Hi-Fi Wireframe">
+
+        <label for="task-details">Task Details</label>
+        <textarea id="task-details" name="description" rows="4" placeholder="Lorem Ipsum is simply dummy text of the printing and typesetting industry."></textarea>
+
+        <h3>Add team members<br>(Only from your friend list)</h3>
+        <div id="team-members"></div>
+
+        <!-- find friend field -->
+        <div id="finder"></div>
+
+        <button type="button" class="add-btn" id="add-btn" onclick="mf()"></button>
+                
+        <h3>Time & Date <br>(Due to)</h3>
+        <div class="time-date">
+            <input type="time" id="time" name="time" value="time">
+            <input type="date" id="date" name="date" value="date">
+        </div>
+
+        <div id="u-Task"></div>
+        <button id="add-new" onclick="createUT()" type="button">Add under task</button>
+        <button class="create-btn" type="button" onclick="submit()">Create</button>
+    </div>
+
+
+
+    <script>
+        let i = 0;
+        let boxUT = document.getElementById("u-Task");
+
+        async function createUT (){
+            if (i <= 99){
+                let create = document.createElement("div")
+                create.innerHTML=`
+                    <input class='UT' name='underTask' autocomplete="off">
+                    <button type='button' id='${i}' class='delete_underTask' onclick=removeUT()>x</button>`
+                create.setAttribute("id", `${i}`)
+                boxUT.appendChild(create)
+                i++;
+            }
+            else if (i >= 100){
+                window.alert("you have too many Under tasks")
+            }
+        }
+
+        async function removeUT() {
+            let createID = document.getElementById(event.target.id);
+            if (event.target.id == createID.id){
+                boxUT.removeChild(createID)
+            }
+        };
+
+
+
+        
+        async function submit() {
+            UT_arr = []
+            let title = document.getElementById("task-title").value
+            let description = document.getElementById("task-details").value
+            let time = document.getElementById("time").value
+            let date = document.getElementById("date").value
+            let UT = document.querySelectorAll(".UT")
+            UT.forEach(item => {
+                UT_arr.push(item.value)
+            })
+            
+            let res = await fetch("/newTask_create", {
+                method: "POST",
+                headers: { "Content-Type": "application/json"},
+                body: JSON.stringify({
+                    title: title,
+                    description: description,
+                    time: time,
+                    date: date,
+                    underTasks: UT_arr
+                })
+            })
+        }
+                
+
+        
+    </script>
+
+{% endblock body %}

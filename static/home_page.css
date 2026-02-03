@@ -163,11 +163,15 @@ color: #fff;
     background: #212832;
 }
 
+
+
+
 .ongoing-project {
-    width: 384px;
-height: 125px;
-background: #455a64;
-margin-bottom: 20px;
+    width: 373px;
+    height: 118px;
+    background: #455a64;
+    margin-bottom: 20px;
+    padding: 7px 0px 0px 11px;
 }
 
 .task-namo {

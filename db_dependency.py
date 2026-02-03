@@ -4,7 +4,7 @@ from typing import Annotated
 from fastapi import Depends
 
 engine = create_engine(
-    "sqlite:///./test.db"
+    "mariadb+mariadbconnector://root:root@127.0.0.1:3306/task_manager_db"
 )
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()

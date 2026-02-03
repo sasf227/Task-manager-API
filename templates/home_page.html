@@ -48,37 +48,23 @@
             <a href="" id="a2">See all</a>
 
             <div id="ongP">
-
-          
-                <div class="ongoing-project">
-                    <span class="task-namo"></span>
-                    
-                    <div class="team-o"><p>Team members:</p> <div></div></div>
-            
-                    <span class="due-to">Due to: </span>
-                    <a href="">details</a>
-                </div>
-
-                <div class="ongoing-project">
-                    <span class="task-namo">Mobile App Wireframe</span>
-
-                    <div class="team-o"><p>Team members</p> <div></div></div>
-
-                    <span class="due-to">Due to: 25 September</span>
-
-                    <div class="bar-o">
+                {% for task in tasks %}
+                    <div class="ongoing-project">
+                        <span class="task-namo">{{ task.title }}</span>
                         
+                        <div class="team-o"><p>Team members:</p> <div></div></div>
+                
+                        <span class="due-to">Due to: {{ task.date }}</span>
+                        <a href="">details</a>
                     </div>
-                    <div class="bar-o2"></div>
-                </div>
+                {% endfor %}
+                
             </div>
         </div>
 
         <button onclick="window.location.href='/newTask'">new task</button>
         <button onclick="window.location.href='/chat'">chat</button>
     </main>
-
-<span> </span>
 <script>
     async function logout() {
         let res = await fetch("/logout", {

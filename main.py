@@ -3,7 +3,7 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from typing import List, Annotated
 import jwt
 from db_dependency import create_tables, db_dependency
-from db import User, Tasks, Token, TokenSchema, UserSchema
+from db import User, Tasks, TokenSchema, UserSchema
 from datetime import timedelta
 from get_user_info import get_current_active_user, get_user
 from auth import authenticate_user
@@ -14,6 +14,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, JSONResponse
 from jwt.exceptions import InvalidTokenError
 from schemas import UserCreate, Task
+from datetime import datetime
 
 
 create_tables()
@@ -50,7 +51,8 @@ async def home(request: Request, db: db_dependency, access_token: str | None = C
         user = get_user(db, username=username)
         if user is None:
             raise credentials_exception
-        return templates.TemplateResponse(request=request, name="home_page.html", context={"username": user.username})
+        tasks = db.query(Tasks).filter_by(created_by=user.username).all()
+        return templates.TemplateResponse(request=request, name="home_page.html", context={"username": user.username, "tasks": tasks})
     else:
         return "Logged out or sign in required"
     
@@ -114,10 +116,42 @@ async def new_task(request: Request):
     return templates.TemplateResponse(request=request, name="newTask.html")
 
 @app.post("/newTask_create")
-async def new_task_create(task: Task, request: Request):
-    print(task)
-    print(task.underTasks)
-    return {"message": "Task created"}
+async def new_task_create(db: db_dependency, task: Task, request: Request, access_token: str | None = Cookie(default=None)):
+    if access_token:
+        credentials_exception = HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+        
+        try:
+            payload = jwt.decode(access_token, SECRET_KEY, algorithms=ALGORITHM)
+            username = payload.get("sub")
+            if username is None:
+                raise credentials_exception
+        except InvalidTokenError:
+            raise credentials_exception
+        user = get_user(db, username=username)
+        if user is None:
+            raise credentials_exception
+        task = Tasks(
+            username_task=user.username,
+            title=task.title,
+            description=task.description,
+            created_at=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            created_by=user.username,
+            time=task.time,
+            date=task.date,
+            status=["0%", "incomplete"],
+            UT=task.underTasks
+        )
+        db.add(task)
+        db.commit()
+    else:
+        return "Logged out or sign in required"
+    
+    
+    
     
 
 @app.get("/users/me/items/")

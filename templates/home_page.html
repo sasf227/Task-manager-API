@@ -49,14 +49,15 @@
 
             <div id="ongP">
                 {% for task in tasks %}
-                    <div class="ongoing-project">
-                        <span class="task-namo">{{ task.title }}</span>
-                        
-                        <div class="team-o"><p>Team members:</p> <div></div></div>
-                
-                        <span class="due-to">Due to: {{ task.date }}</span>
-                        <a href="">details</a>
-                    </div>
+                    <button id="task-redirection", onclick="window.location.href='/taskDetails/{{ task.title }}'">
+                        <div class="ongoing-project">
+                            <span class="task-namo">{{ task.title }}</span>
+                            
+                            <div class="team-o"><p>Team members:</p></div>
+                    
+                            <span class="due-to">Due to: {{ task.date }}</span>
+                        </div>
+                    </button>
                 {% endfor %}
                 
             </div>

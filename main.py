@@ -150,6 +150,11 @@ async def new_task_create(db: db_dependency, task: Task, request: Request, acces
     else:
         return "Logged out or sign in required"
     
+
+@app.get("/taskDetails/{title}", response_class=HTMLResponse)
+async def taskDetails(title: str, request: Request, db: db_dependency):
+    taskDetails = db.query(Tasks).filter_by(title=title).first()
+    return templates.TemplateResponse(request=request, name="taskDetails.html", context={"taskDetails": taskDetails})
     
     
     

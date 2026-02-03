@@ -1,0 +1,95 @@
+{% extends "project_base.html" %}
+
+
+{% block body %}
+
+<button id="btn" onclick="">delete</button>
+
+    <div class="progress">
+        <div class="progressO">
+            <div class="progressI"> 
+                <div id="number">
+                0<span id="precent">%</span>
+            </div>
+        </div>
+        
+        </div>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="160px" height="160px">
+            <defs>
+            <linearGradient id="GradientColor">
+            <stop offset="0%" stop-color="#DA22FF" />
+            <stop offset="100%" stop-color="#9733EE" />
+            </linearGradient>
+            </defs>
+            
+            <circle id="circle" cx="80" cy="80" r="70" stroke-linecap="round" />
+            </svg>
+    </div>
+
+    <div id="task_details" style="display:grid; width: 200px; height: 100px;">
+ 
+    </div>
+    <div id="UTaskBox"></div>
+    
+    <script>
+        
+
+
+        let list = JSON.parse(localStorage.getItem("index"));
+        let data = JSON.parse(localStorage.getItem(list[Nkey]));
+        let arr = list.filter(value => value != key)
+
+        function deleteUT () {
+            localStorage.removeItem(list[Nkey])
+            localStorage.setItem("index", JSON.stringify(arr))
+            window.location.href = ""
+        }
+
+
+        window.addEventListener("load", function(){
+        let dataArr = data.UTask.split(",")
+        console.log(dataArr)
+
+        dataArr.forEach(value => {
+        console.log(value);
+            let box = document.getElementById("UTaskBox");
+            let task = document.createElement("div");
+            
+        
+            task.innerHTML=`
+                <span class="">${value}<input type="checkbox" class="checkbox" value="un"></span>
+                `
+            box.appendChild(task)
+        });
+
+        let checkbox = document.querySelectorAll(".checkbox")
+        let totalCount = 0
+        
+
+        
+        checkbox.forEach((element) => element.addEventListener("change", function(){
+            if (element.value == "un"){
+            console.log("changed");
+            element.value = "on";
+            totalCount++;
+
+
+            }
+            else if (element.value == "on"){
+                console.log("unchanged");
+                element.value = "un";
+                totalCount--;
+            };
+            const precent = 100 / dataArr.length * totalCount
+            console.log(totalCount)
+            console.log(precent)
+       }))
+        
+        
+        
+
+    });
+    </script>
+
+{% endblock body %}

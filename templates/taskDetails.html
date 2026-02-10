@@ -2,94 +2,73 @@
 
 
 {% block body %}
-
-<button id="btn" onclick="">delete</button>
-
-    <div class="progress">
-        <div class="progressO">
-            <div class="progressI"> 
-                <div id="number">
-                0<span id="precent">%</span>
+<link rel="stylesheet" href="/static/taskDetails.css">
+<header>
+    <button>back</button>
+    <h1>Task Details</h1>
+    <button>rewrite</button>
+</header>
+<main>
+    <h1>{{ taskDetails.title }}</h1>
+    <div id="timeandteam">
+        <div class="dateTeam">
+            <div id="calendar"></div>
+            <div class="info">
+                <span>Due to</span>
+                <span class="text">{{ taskDetails.date }}, {{ taskDetails.time }}</span>
             </div>
         </div>
-        
+
+        <div class="dateTeam">
+            <div id="users"></div>
+            <div class="info">
+                <span>Project team</span>
+                <span class="text">peoples</span>
+            </div>
         </div>
-        
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="160px" height="160px">
-            <defs>
-            <linearGradient id="GradientColor">
-            <stop offset="0%" stop-color="#DA22FF" />
-            <stop offset="100%" stop-color="#9733EE" />
-            </linearGradient>
-            </defs>
-            
-            <circle id="circle" cx="80" cy="80" r="70" stroke-linecap="round" />
-            </svg>
     </div>
 
-    <div id="task_details" style="display:grid; width: 200px; height: 100px;">
- 
+    <div id="description">
+        <span class="text">Description</span>
+        <span>{{ taskDetails.description }}</span>
     </div>
-    <div id="UTaskBox"></div>
-    
-    <script>
-        
 
+    <div id="progress">
+        <span class="text">Project Progress</span>
+        <div id="outter"><span id="precent">30%</span></div>
+    </div>
 
-        let list = JSON.parse(localStorage.getItem("index"));
-        let data = JSON.parse(localStorage.getItem(list[Nkey]));
-        let arr = list.filter(value => value != key)
+    <span class="text">All Tasks</span>
+    <div id="UTbox"></div>
 
-        function deleteUT () {
-            localStorage.removeItem(list[Nkey])
-            localStorage.setItem("index", JSON.stringify(arr))
-            window.location.href = ""
-        }
+<!-- Task details 
+            <span>{{ taskDetails.time }}</span>
+            <span>{{ taskDetails.date }}</span>
+            <span>{{ taskDetails.created_at }}</span>
+            <span>{{ taskDetails.created_by }}</span>
+            <span>{{ taskDetails.status }}</span>
+            <span>{{ taskDetails.UT }}</span>
+-->
+</main>
 
+<script>
+    let utarr = {{ taskDetails.UT|safe }};
+    let Utbox = document.getElementById("UTbox");
 
-        window.addEventListener("load", function(){
-        let dataArr = data.UTask.split(",")
-        console.log(dataArr)
-
-        dataArr.forEach(value => {
-        console.log(value);
-            let box = document.getElementById("UTaskBox");
-            let task = document.createElement("div");
-            
-        
-            task.innerHTML=`
-                <span class="">${value}<input type="checkbox" class="checkbox" value="un"></span>
-                `
-            box.appendChild(task)
-        });
-
-        let checkbox = document.querySelectorAll(".checkbox")
-        let totalCount = 0
-        
-
-        
-        checkbox.forEach((element) => element.addEventListener("change", function(){
-            if (element.value == "un"){
-            console.log("changed");
-            element.value = "on";
-            totalCount++;
-
-
-            }
-            else if (element.value == "on"){
-                console.log("unchanged");
-                element.value = "un";
-                totalCount--;
-            };
-            const precent = 100 / dataArr.length * totalCount
-            console.log(totalCount)
-            console.log(precent)
-       }))
-        
-        
-        
-
+    utarr.forEach(item => {
+        let box = document.createElement("div")
+        box.innerHTML=`
+            <span>${item}</span>
+            <label><input type="checkbox" class="check"></label>
+        `
+        box.setAttribute("id", `${item}`)
+        box.setAttribute("class", "UT")
+        Utbox.appendChild(box);
     });
-    </script>
 
+
+</script>
+    
+    
+ 
 {% endblock body %}

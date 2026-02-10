@@ -1,0 +1,73 @@
+header{
+    display: flex;
+    align-items: center;
+}
+
+main{
+    display: grid;
+    position: relative;
+    left: 29px;
+}
+
+.text{
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    color: #fff;
+}
+
+#timeandteam{
+    display: flex;
+    gap: 80px;
+}
+
+.dateTeam{
+    display: flex;
+    gap: 14px;
+}
+
+#calendar, #users{
+    width: 47px;
+    height: 47px;
+    background-color: #FED36A;
+}
+
+.info {
+    display: grid;
+}
+
+#description{
+    display: grid;
+    align-items: center;
+    margin-top: 30px;
+    gap: 9px;
+}
+
+#progress{
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+    gap: 185px;
+}
+
+#outter{
+    width: 59px;
+    height: 59px;
+    border: 2px solid ;
+    border-image: conic-gradient(#FED36A 30%, #2C4653 0) 1;
+    position: relative;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+}
+
+#precent {
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    text-align: center;
+    color: #fff;
+}
+
+
+    

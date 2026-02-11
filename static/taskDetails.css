@@ -16,6 +16,26 @@ main{
     color: #fff;
 }
 
+.text2{
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 154%;
+    color: #bccfd8;
+}
+#titleInfo{
+    display: grid;
+    margin-bottom: 27px;
+}
+
+#titleInfo h1{
+    font-family: "Pilat Extended", sans-serif;
+    font-weight: 600;
+    font-size: 30px;
+    color: #fff;
+    margin-top: 0;
+    margin-bottom: 0;
+}
 #timeandteam{
     display: flex;
     gap: 80px;
@@ -47,14 +67,14 @@ main{
     display: flex;
     align-items: center;
     margin-top: 30px;
-    gap: 185px;
+    gap: 175px;
 }
 
 #outter{
     width: 59px;
     height: 59px;
-    border: 2px solid ;
-    border-image: conic-gradient(#FED36A 30%, #2C4653 0) 1;
+    border: 3px solid ;
+    border-image: conic-gradient(#FED36A 0%, #2C4653 0) 1;
     position: relative;
     display: flex; 
     justify-content: center; 
@@ -69,5 +89,60 @@ main{
     color: #fff;
 }
 
-
+#under-tasks{
+    display: grid;
+    margin-top: 19px;
+    gap: 22px;
+}
     
+#UTbox{
+    display: grid;
+    gap: 12px;
+}
+
+.UT {
+    display: flex;
+    width: 370px;
+    height: 58px;
+    background-color: #455A64;
+}
+
+.UTtext{
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    color: #fff;
+    display: flex;
+    align-self: center;
+    margin-left: 19px;
+}
+
+.check-label {
+    width: 40px;
+    height: 40px;
+    background-color: #FED36A;
+    display: flex;
+    align-self: center;
+    margin-left: auto;
+    margin-right: 10px;
+}
+
+.check {
+    width: 24px;
+    height: 24px;
+    margin: auto;
+}
+
+#delete{
+    width: 318px;
+    height: 57px;
+    background-color: #d60101;
+    color: #fff;
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    border: none;
+    margin-top: 30px;
+    align-self: center;
+    margin-left: 30px;
+}

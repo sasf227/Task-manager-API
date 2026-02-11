@@ -12,3 +12,5 @@ class Task(BaseModel):
     date: str
     underTasks: List
 
+class idT(BaseModel):
+    id: str | int

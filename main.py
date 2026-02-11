@@ -13,7 +13,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, JSONResponse
 from jwt.exceptions import InvalidTokenError
-from schemas import UserCreate, Task
+from schemas import UserCreate, Task, idT
 from datetime import datetime
 
 
@@ -116,7 +116,7 @@ async def new_task(request: Request):
     return templates.TemplateResponse(request=request, name="newTask.html")
 
 @app.post("/newTask_create")
-async def new_task_create(db: db_dependency, task: Task, request: Request, access_token: str | None = Cookie(default=None)):
+async def new_task_create(db: db_dependency, task: Task, access_token: str | None = Cookie(default=None)):
     if access_token:
         credentials_exception = HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -156,8 +156,30 @@ async def taskDetails(title: str, request: Request, db: db_dependency):
     taskDetails = db.query(Tasks).filter_by(title=title).first()
     return templates.TemplateResponse(request=request, name="taskDetails.html", context={"taskDetails": taskDetails})
     
-    
-    
+@app.post("/deleteTask")
+async def deleteTask(idT: idT, db: db_dependency, access_token: str | None = Cookie(default=None)):
+    if access_token:
+        credentials_exception = HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+        
+        try:
+            payload = jwt.decode(access_token, SECRET_KEY, algorithms=ALGORITHM)
+            username = payload.get("sub")
+            if username is None:
+                raise credentials_exception
+        except InvalidTokenError:
+            raise credentials_exception
+        user = get_user(db, username=username)
+        if user is None:
+            raise credentials_exception
+        task = db.query(Tasks).filter_by(id=idT).first()
+        db.delete(task)
+        db.commit()
+    else:
+        return "Logged out or sign in required"
 
 @app.get("/users/me/items/")
 async def read_own_items(
